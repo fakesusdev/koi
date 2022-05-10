@@ -1,0 +1,8 @@
+[submodule "Purpur"]
+	path = Purpur
+	url = https://github.com/PurpurMC/Purpur
+	branch = ver/1.16.5
+[submodule "Paperclip"]
+	path = Paperclip
+	url = https://github.com/PaperMC/Paperclip
+	branch = master

@@ -1,0 +1,70 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KurumiFake <kurumiisshidowife@gmail.com>
+Date: Tue, 10 May 2022 18:43:11 +0200
+Subject: [PATCH] pom changes
+
+
+diff --git a/pom.xml b/pom.xml
+index 6fd6066b16d4dbf8695be16ec8b2d135d4d04901..11496cf7ccd7c20298e740be1b84dd1e14c12974 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -3,18 +3,18 @@
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+-        <groupId>com.tuinity</groupId>
+-        <artifactId>tuinity-parent</artifactId>
++        <groupId>me.kurumifake.koi</groupId>
++        <artifactId>koi-parent</artifactId>
+         <version>dev-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <artifactId>tuinity-api</artifactId>
++    <artifactId>koi-api</artifactId>
+     <version>1.16.5-R0.1-SNAPSHOT</version>
+     <packaging>jar</packaging>
+ 
+-    <name>Tuinity-API</name>
+-    <url>https://github.com/Spottedleaf/Tuinity</url>
++    <name>Koi-API</name>
++    <url>https://github.com/fakesusdev/koi</url>
+     <description>An enhanced plugin API for Minecraft servers.</description>
+ 
+     <properties>
+@@ -68,7 +68,7 @@
+         <dependency>
+             <groupId>it.unimi.dsi</groupId>
+             <artifactId>fastutil</artifactId>
+-            <version>8.2.2</version>
++            <version>8.5.8</version>
+             <scope>provided</scope>
+         </dependency>
+         <dependency>
+@@ -115,7 +115,7 @@
+         <dependency>
+             <groupId>org.yaml</groupId>
+             <artifactId>snakeyaml</artifactId>
+-            <version>1.27</version>
++            <version>1.30</version>
+             <scope>compile</scope>
+         </dependency>
+         <!-- not part of the API proper -->
+@@ -148,7 +148,7 @@
+         <dependency>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-api</artifactId>
+-            <version>1.7.25</version>
++            <version>1.7.36</version>
+             <scope>compile</scope>
+         </dependency>
+         <!-- testing -->
+@@ -234,7 +234,7 @@
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-shade-plugin</artifactId>
+-                <version>3.2.3</version>
++                <version>3.2.4</version>
+                 <executions>
+                     <execution>
+                         <phase>package</phase>

@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KurumiFake <kurumiisshidowife@gmail.com>
+Date: Tue, 10 May 2022 19:15:23 +0200
+Subject: [PATCH] remove pl3x snapshot repo
+
+pl3x is deprecated i guess
+
+diff --git a/pom.xml b/pom.xml
+index 056128c204c9260f40a791a56ae3c437d29fb8b2..e472927d63a91978c58eae705c1d8b194c58dc98 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -197,14 +197,6 @@
+         </dependency>
+     </dependencies>
+ 
+-    <repositories>
+-        <!-- Purpur - Snapshots -->
+-        <repository>
+-            <id>purpur-snapshots</id>
+-            <url>https://repo.pl3x.net/</url>
+-        </repository>
+-    </repositories>
+-
+     <!-- This builds a completely 'ready to start' jar with all dependencies inside -->
+     <build>
+         <finalName>koi-${minecraft.version}</finalName>
