@@ -1,0 +1,95 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KurumiFake <kurumiisshidowife@gmail.com>
+Date: Tue, 24 May 2022 13:04:11 +0200
+Subject: [PATCH] versioning and metrics
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index b480bd3044370b8eb733166f0c4b737344475993..79e1842b709186dd457c236db0d6c9f8e93dbe2c 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Airplane", serverUUID, logFailedRequests, Bukkit.getLogger()); // Tuinity - we have our own bstats page // Airplane
++                Metrics metrics = new Metrics("Koi", serverUUID, logFailedRequests, Bukkit.getLogger()); // Tuinity - we have our own bstats page // Airplane // koi
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
+@@ -603,7 +603,7 @@ public class Metrics {
+ 
+                 metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
+                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() || PaperConfig.isProxyOnlineMode() ? "online" : "offline"));
+-                metrics.addCustomChart(new Metrics.SimplePie("airplane_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Tuinity - we have our own bstats page // Airplane
++                metrics.addCustomChart(new Metrics.SimplePie("koi_version", () -> (Metrics.class.getPackage().getImplementationVersion() != null) ? Metrics.class.getPackage().getImplementationVersion() : "unknown")); // Tuinity - we have our own bstats page // Airplane // koi
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+                     Map<String, Map<String, Integer>> map = new HashMap<>();
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 3c4bd267e8a15f89226379e25c80869c1d4c9106..5d8beca6d95c34354ea7565064bf7afbe10c5186 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -29,8 +29,8 @@ public class PaperVersionFetcher implements VersionFetcher {
+     @Nonnull
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+-        String[] parts = serverVersion.substring("git-Airplane-".length()).split("[-\\s]"); // Tuinity
+-        final Component updateMessage = getUpdateStatusMessage("TECHNOVE/Airplane", GITHUB_BRANCH_NAME, parts[0]); // Tuinity
++        String[] parts = serverVersion.substring("git-Koi-".length()).split("[-\\s]"); // Tuinity
++        final Component updateMessage = getUpdateStatusMessage("fakesusdev/koi", GITHUB_BRANCH_NAME, parts[0]); // Tuinity
+         final Component history = getHistory();
+ 
+         return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
+@@ -71,7 +71,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+         }
+     }
+ 
+-    private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
++    /*private static int fetchDistanceFromSiteApi(int jenkinsBuild, @Nullable String siteApiVersion) {
+         if (siteApiVersion == null) { return -1; }
+         try {
+             try (BufferedReader reader = Resources.asCharSource(
+@@ -93,7 +93,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+             e.printStackTrace();
+             return -1;
+         }
+-    }
++    }*/
+ 
+     // Contributed by Techcable <Techcable@outlook.com> in GH-65
+     private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 1788d79ea489e446d3d9f541693d4ba3dfc26015..c60639817606858f58c724b242b904c087d63800 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -1,15 +1,15 @@
+ package org.bukkit.craftbukkit.util;
+ 
+-import java.io.IOException;
++/*import java.io.IOException;
+ import java.io.InputStream;
+ import java.util.Properties;
+ import java.util.logging.Level;
+-import java.util.logging.Logger;
++import java.util.logging.Logger;*/
+ import org.bukkit.Bukkit;
+ 
+ public final class Versioning {
+     public static String getBukkitVersion() {
+-        String result = "Unknown-Version";
++        /*String result = "Unknown-Version";
+ 
+         InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/gg.airplane/airplane-api/pom.properties"); // Tuinity // Airplane
+         Properties properties = new Properties();
+@@ -22,8 +22,8 @@ public final class Versioning {
+             } catch (IOException ex) {
+                 Logger.getLogger(Versioning.class.getName()).log(Level.SEVERE, "Could not get Bukkit version!", ex);
+             }
+-        }
++        }*/
+ 
+-        return result;
++        return "1.16.5-R0.1-SNAPSHOT"; // Lazinity - Hardcode BukkitVersion
+     }
+ }

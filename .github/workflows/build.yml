@@ -1,0 +1,39 @@
+name: Build main
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.java }}
+    - uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
+    - name: patch
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git submodule update --init --recursive
+        ./koi patch
+    - name: bulid
+      run: ./koi jar fast
+    - name: release info
+      id: relInfo
+      run: |
+        echo "::set-output name=date::$(date +'%H:%M %m/%d/%Y')"
+        echo "::set-output name=shortHash::$(git rev-parse --short HEAD)"
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "1.16.5-Purpur"
+        prerelease: false
+        title: "Koi-Purpur ${{ steps.relInfo.outputs.date }} ${{ steps.relInfo.outputs.shortHash }}"
+        files: ./koi-paperclip.jar

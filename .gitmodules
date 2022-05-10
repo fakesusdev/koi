@@ -1,0 +1,8 @@
+[submodule "Paperclip"]
+	path = Paperclip
+	url = https://github.com/PaperMC/Paperclip
+	branch = master
+[submodule "Airplane"]
+	path = Airplane
+	url = https://github.com/TECHNOVE/Airplane
+	branch = ver/1.16

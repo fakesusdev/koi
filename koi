@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+# exit immediately if a command exits with a non-zero status
+set -e
+# get base dir regardless of execution location
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"    [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+SOURCE=$([[ "$SOURCE" = /* ]] && echo "$SOURCE" || echo "$PWD/${SOURCE#./}")
+basedir=$(dirname "$SOURCE")
+. "$basedir"/scripts/init.sh
+
+paperstash() {
+    STASHED=$(git stash)
+}
+
+paperunstash() {
+    if [[ "$STASHED" != "No local changes to save" ]] ; then
+        git stash pop
+    fi
+}
+
+case "$1" in
+    "rb" | "rbp" | "rebuild")
+    (
+        set -e
+        cd "$basedir"
+        scripts/rebuildpatches.sh "$basedir"
+    )
+    ;;
+    "p" | "patch" | "apply")
+    (
+        set -e
+        cd "$basedir"
+        if [ "$2" != "fast" ]; then
+          scripts/upstream.sh
+        fi
+        scripts/apply.sh "$basedir"
+    )
+    ;;
+    "b" | "bu" | "build")
+    (
+        basedir
+        mvn -N install
+        cd ${FORK_NAME}-API && mvn -e clean install
+        cd ../${FORK_NAME}-Server && mvn -e clean install
+    )
+    ;;
+    "jar" | "paperclip")
+    (
+        basedir
+        cd "$basedir"
+        if [ "$2" != "fast" ]; then
+           scripts/upstream.sh
+           ./scripts/apply.sh "$basedir"
+           cd "$basedir"
+        fi
+        mvn -N install
+        cd ${FORK_NAME}-API && mvn -e clean install
+        cd ../${FORK_NAME}-Server && mvn -e clean install
+        cd "$basedir"
+        ./scripts/paperclip.sh
+    )
+    ;;
+    "d" | "de" | "deploy")
+    (
+        basedir
+        mvn -N install
+        cd ${FORK_NAME}-API && mvn clean deploy && cd ../${FORK_NAME}-Server && mvn clean install
+    )
+    ;;
+    "up" | "upstream")
+    (
+        cd "$basedir"
+        scripts/upstream.sh "$2"
+    )
+    ;;
+    *)
+        echo "Koi build tool command."
+        echo "This provides a variety of commands to build and manage the PaperMC build environment."
+        echo ""
+        echo " Commands:"
+        echo "  * rb, rebuild  | Rebuild patches."
+        echo "  * p, patch     | Apply all patches to top of Paper without building it."
+        echo "  * up, upstream | Build Paper upstream, pass arg up to update paper."
+        echo "  * b, build     | Build API and Server but no deploy."
+        echo "  * d, deploy    | Build and Deploy API jar and build Server."
+    ;;
+esac
+
+unset -f paperstash
+unset -f paperunstash
