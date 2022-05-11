@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KurumiFake <kurumiisshidowife@gmail.com>
+Date: Wed, 11 May 2022 02:20:27 +0200
+Subject: [PATCH] switch default timings url to timin.gs
+
+
+diff --git a/src/main/java/net/pl3x/purpur/PurpurConfig.java b/src/main/java/net/pl3x/purpur/PurpurConfig.java
+index 72c20065e09af656a565c2c1097f26c00b76c1e4..3bb1ed979475db75aee45f152e9c24b9fff259fc 100644
+--- a/src/main/java/net/pl3x/purpur/PurpurConfig.java
++++ b/src/main/java/net/pl3x/purpur/PurpurConfig.java
+@@ -192,7 +192,7 @@ public class PurpurConfig {
+         serverModName = getString("settings.server-mod-name", serverModName);
+     }
+ 
+-    public static String timingsUrl = "https://timings.pl3x.net";
++    public static String timingsUrl = "https://timin.gs"; // koi - timings.pl3x.net is now closed
+     private static void timingsSettings() {
+         timingsUrl = getString("settings.timings.url", timingsUrl);
+         if (!TimingsManager.hiddenConfigs.contains("server-ip")) TimingsManager.hiddenConfigs.add("server-ip");

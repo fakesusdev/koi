@@ -1,0 +1,99 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KurumiFake <kurumiisshidowife@gmail.com>
+Date: Wed, 11 May 2022 02:16:58 +0200
+Subject: [PATCH] versioning
+
+
+diff --git a/src/main/java/net/pl3x/purpur/PurpurVersionFetcher.java b/src/main/java/net/pl3x/purpur/PurpurVersionFetcher.java
+index cabfcebf9f944f7a2a2a1cffc7401435803a8741..1c2b7d0053b86c087606f77bd6a7abc1f24462a1 100644
+--- a/src/main/java/net/pl3x/purpur/PurpurVersionFetcher.java
++++ b/src/main/java/net/pl3x/purpur/PurpurVersionFetcher.java
+@@ -21,8 +21,8 @@ import java.net.HttpURLConnection;
+ import java.net.URL;
+ 
+ public class PurpurVersionFetcher implements VersionFetcher {
+-    private static final String JENKINS_URL = "https://ci.pl3x.net/job/Purpur/lastSuccessfulBuild/buildNumber";
+-    private static final String GITHUB_BRANCH_NAME = "master";
++    //private static final String JENKINS_URL = "https://ci.pl3x.net/job/Purpur/lastSuccessfulBuild/buildNumber";
++    private static final String GITHUB_BRANCH_NAME = "ver/1.16.5/purpur";
+ 
+     @Override
+     public long getCacheTime() {
+@@ -33,7 +33,7 @@ public class PurpurVersionFetcher implements VersionFetcher {
+     @Override
+     public Component getVersionMessage(@Nonnull String serverVersion) {
+         String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]");
+-        final Component updateMessage = getUpdateStatusMessage("pl3xgaming/Purpur", GITHUB_BRANCH_NAME, parts[0]);
++        final Component updateMessage = getUpdateStatusMessage("fakesusdev/koi", GITHUB_BRANCH_NAME, parts[0]);
+         final Component history = getHistory();
+ 
+         return history != null ? TextComponent.ofChildren(updateMessage, Component.newline(), history) : updateMessage;
+@@ -41,13 +41,13 @@ public class PurpurVersionFetcher implements VersionFetcher {
+ 
+     private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
+         int distance;
+-        try {
++        /*try {
+             int jenkinsBuild = Integer.parseInt(versionInfo);
+             distance = fetchDistanceFromJenkins(jenkinsBuild);
+-        } catch (NumberFormatException ignored) {
++        } catch (NumberFormatException ignored) {*/
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
+-        }
++        //}
+ 
+         switch (distance) {
+             case -1:
+@@ -61,7 +61,7 @@ public class PurpurVersionFetcher implements VersionFetcher {
+         }
+     }
+ 
+-    private static int fetchDistanceFromJenkins(int jenkinsBuild) {
++    /*private static int fetchDistanceFromJenkins(int jenkinsBuild) {
+         try {
+             try (BufferedReader reader = Resources.asCharSource(new URL(JENKINS_URL), Charsets.UTF_8).openBufferedStream()) {
+                 return Integer.decode(reader.readLine()) - jenkinsBuild;
+@@ -73,7 +73,7 @@ public class PurpurVersionFetcher implements VersionFetcher {
+             e.printStackTrace();
+             return -1;
+         }
+-    }
++    }*/
+ 
+     // Contributed by Techcable <Techcable@outlook.com> in GH-65
+     private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 13b98439320ac1401a920c01d7cf5a4b3a23deff..7b62951c0eccb300efe879b3b12323d32d07579a 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -1,15 +1,15 @@
+ package org.bukkit.craftbukkit.util;
+ 
+-import java.io.IOException;
++/*import java.io.IOException;
+ import java.io.InputStream;
+ import java.util.Properties;
+ import java.util.logging.Level;
+-import java.util.logging.Logger;
++import java.util.logging.Logger;*/
+ import org.bukkit.Bukkit;
+ 
+ public final class Versioning {
+     public static String getBukkitVersion() {
+-        String result = "Unknown-Version";
++        /*String result = "Unknown-Version";
+ 
+         InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/net.pl3x.purpur/purpur-api/pom.properties"); // Tuinity // Purpur
+         Properties properties = new Properties();
+@@ -22,8 +22,8 @@ public final class Versioning {
+             } catch (IOException ex) {
+                 Logger.getLogger(Versioning.class.getName()).log(Level.SEVERE, "Could not get Bukkit version!", ex);
+             }
+-        }
++        }*/
+ 
+-        return result;
++        return "1.16.5-R0.1-SNAPSHOT"; // Lazinity - Hardcode BukkitVersion
+     }
+ }
